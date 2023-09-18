@@ -1,0 +1,68 @@
+
+Creating Tables
+
+•	Hospital
+CREATE TABLE Hospital (
+	HospitalID LONG PRIMARY KEY, 
+	Name TEXT NOT NULL,
+	Address TEXT NOT NULL,
+	PhoneNo TEXT NOT NULL
+);
+
+•	Drug
+CREATE TABLE Drug (
+	DrugID LONG PRIMARY KEY,
+	Name TEXT NOT NULL,
+	Description TEXT NOT NULL,
+	Dosage TEXT NOT NULL,
+	ExpirationDate DATETIME NOT NULL,
+	UnitPrice CURRENCY NOT NULL
+);
+
+•	Supplier
+CREATE TABLE Supplier (
+	SupplierID LONG PRIMARY KEY,
+	Name TEXT NOT NULL,
+	Address TEXT NOT NULL,
+	PhoneNo TEXT NOT NULL,
+	Email TEXT NOT NULL
+);
+•	Inventory
+CREATE TABLE Inventory (
+	DrugID LONG,
+	SupplierID LONG,
+	Quantity SHORT NOT NULL,
+	PRIMARY KEY (DrugID, SupplierID),
+	FOREIGN KEY (DrugID) REFERENCES Drug (DrugID),
+	FOREIGN KEY (SupplierID) REFERENCES Supplier (SupplierID)
+);
+
+
+
+•	Order
+CREATE TABLE Order (
+	OrderID LONG PRIMARY KEY,
+	HospitalID LONG NOT NULL,
+	OrderDate DATETIME NOT NULL,
+	FOREIGN KEY (HospitalID) REFERENCES Hospital (HospitalID)
+);
+
+•	Order Detail
+CREATE TABLE OrderDetail (
+	OrderID LONG,
+	DrugID LONG,
+	Quantity LONG NOT NULL,
+	Cost CURRENCY,
+	PRIMARY KEY (OrderID, DrugID),
+	FOREIGN KEY (OrderID) REFERENCES Order (OrderID),
+	FOREIGN KEY (DrugID) REFERENCES Drug (DrugID)
+);
+
+•	Invoice
+CREATE TABLE Invoice (
+	InvoiceNumber LONG PRIMARY KEY,
+	OrderID LONG NOT NULL,
+	InoviceDate DATETIME NOT NULL,
+	FOREIGN KEY (OrderID) REFERENCES Order (OrderID)
+);
+ 
