@@ -1,0 +1,16 @@
+
+1.	Hospital (Hospital ID, Name, Address, Phone No)
+
+2.	Drug (Drug ID, Name, Description, Dosage, Expiration Date, Unit Price)
+
+3.	Supplier (Supplier ID, Name, Address, Phone No, Email)
+
+4.	Inventory (Drug ID*, Supplier ID*, Quantity)
+
+5.	Order (Order ID, Hospital ID, Order Date)
+
+6.	Order Detail (Order ID*, Drug ID*, Quantity)
+
+7.	Invoice (Invoice Number, Order ID, Invoice Date)  
+
+*Also, a primary key
