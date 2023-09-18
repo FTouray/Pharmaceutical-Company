@@ -1,0 +1,30 @@
+
+1.	Check that the drug is not expired – if expiration date is before the current date, then it can’t be added.
+ALTER TABLE Drug
+ADD CONSTRAINT CheckExpirationDate
+CHECK (ExpirationDate >= Date());
+2.	Check that the quantity of a drug in the Inventory table is always greater than zero.
+ALTER TABLE Inventory
+ADD CONSTRAINT CheckQuantity
+CHECK (Quantity >= 0);
+3.	Unique constraint to make sure no two suppliers have the same name.
+ALTER TABLE Supplier
+ADD CONSTRAINT UniqueSupplierName UNIQUE (Name);
+4.	Unique constraint to make sure no two hospitals have the same name.
+ALTER TABLE Hospital
+ADD CONSTRAINT UniqueHospitalName UNIQUE (Name);
+5.	Check that the order ID in the Invoice entity is in the OrderDetail entity.
+ALTER TABLE Invoice
+ADD CONSTRAINT CKInvoiceOrderID
+CHECK (OrderID IN (SELECT OrderID FROM OrderDetail));
+6.	Update the cost of each batch of drugs ordered. Query
+UPDATE Drug 
+INNER JOIN OrderDetail ON (Drug.DrugID = OrderDetail.DrugID) AND (Drug.DrugID = OrderDetail.DrugID) 
+SET OrderDetail.Cost = [OrderDetail].[Quantity]*[Drug].[UnitPrice];
+7.	Invoice Date cannot be before the Order Date in the Order table for the same Order ID
+ALTER TABLE Invoice 
+ADD CONSTRAINT OrderDateConstraint 
+CHECK (InvoiceDate >= 
+(SELECT OrderDate FROM [Order] 
+WHERE [Order].OrderID = Invoice.OrderID));
+
